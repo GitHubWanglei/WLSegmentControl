@@ -17,6 +17,6 @@
     }];
     //--------------------------------示例代码------------------------------------------
 
-示例图片:
+效果图:
 
 ![image](https://raw.githubusercontent.com/GitHubWanglei/WLSegmentControl/master/Simulator%20Screen%20Shot%202016%E5%B9%B41%E6%9C%884%E6%97%A5%2011.45.15.png)
