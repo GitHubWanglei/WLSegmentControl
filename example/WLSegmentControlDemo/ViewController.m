@@ -21,7 +21,10 @@
     
     //--------------------------------WLSegmentedControlStyleBordered------------------------------------------
     
-    WLSegmentControl *segmentControl1 = [[WLSegmentControl alloc] initWithFrame:CGRectMake(10, 50, self.view.bounds.size.width-20, 30) btnTitles:@[@"title1", @"title2", [UIImage imageNamed:@"normal.png"], @"titles4"] cornerRadius:15 style:WLSegmentedControlStyleBordered];
+    WLSegmentControl *segmentControl1 = [[WLSegmentControl alloc] initWithFrame:CGRectMake(10, 50, self.view.bounds.size.width-20, 30)
+                                                                      btnTitles:@[@"title1", @"title2", [UIImage imageNamed:@"normal.png"], @"titles4"]
+                                                                   cornerRadius:15
+                                                                          style:WLSegmentedControlStyleBordered];
     [segmentControl1 setTitleColor:[UIColor grayColor] highlightedColor:nil selectedColor:[UIColor whiteColor]];
     [segmentControl1 setTitleSelectedBackgroundColor:[UIColor brownColor]];
     [segmentControl1 setselectedImage:[UIImage imageNamed:@"selected.png"] tag:2];

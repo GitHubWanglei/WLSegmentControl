@@ -43,7 +43,7 @@
 
 -(void)initViewWithTitles:(NSArray *)titles{
     
-    for (int i = 0; i<titles.count; i++) {//若不是NSString或UIImage类型,则停止初始化
+    for (int i = 0; i<titles.count; i++) {
         if (![titles[i] isKindOfClass:[NSString class]] && ![titles[i] isKindOfClass:[UIImage class]]) {
             return;
         }
@@ -95,15 +95,40 @@
                 label.textAlignment = NSTextAlignmentCenter;
                 label.textColor = [UIColor whiteColor];
                 label.tag = i;
+                
+                UIButton *maskBtn = [[UIButton alloc] initWithFrame:label.bounds];
+                maskBtn.backgroundColor = [UIColor clearColor];
+                maskBtn.tag = label.tag;
+                [maskBtn addTarget:self action:@selector(titleClick:) forControlEvents:UIControlEventTouchUpInside];
+                [label addSubview:maskBtn];
+                label.userInteractionEnabled = YES;
+                
                 [mirrorView addSubview:label];
                 [self.labels addObject:label];
+                
+                if (maskBtn.tag == 0) {
+                    self.lastSelectedBtn = maskBtn;
+                }
+                
             }else{
                 UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(btn_W*i, 0, btn_W-margin*2, btn_H-margin*2)];
                 imageView.backgroundColor = [UIColor clearColor];
                 imageView.image = (UIImage *)titles[i];
                 imageView.tag = i;
+                
+                UIButton *maskBtn = [[UIButton alloc] initWithFrame:imageView.bounds];
+                maskBtn.backgroundColor = [UIColor clearColor];
+                maskBtn.tag = imageView.tag;
+                [maskBtn addTarget:self action:@selector(titleClick:) forControlEvents:UIControlEventTouchUpInside];
+                [imageView addSubview:maskBtn];
+                imageView.userInteractionEnabled = YES;
+                
                 [mirrorView addSubview:imageView];
                 [self.labels addObject:imageView];
+                
+                if (maskBtn.tag == 0) {
+                    self.lastSelectedBtn = maskBtn;
+                }
             }
             
         }
@@ -163,11 +188,7 @@
     
     if (self.style == WLSegmentedControlStylePlain) {
         
-        if (self.tapBlockHandle) {
-            self.tapBlockHandle(btn.tag);
-        }
-        
-        if (self.isHaveAnimation) {
+        if (self.isHaveAnimation && btn.tag != self.lastSelectedBtn.tag) {
             [UIView animateWithDuration:1/3.0f animations:^{
                 self.backView.frame = CGRectMake(btnFrame.origin.x, margin, btnFrame.size.width-margin*2, btnFrame.size.height-margin*2);
                 self.mirrorView.frame = CGRectMake(-btnFrame.origin.x,
@@ -175,7 +196,7 @@
                                                    self.bounds.size.width,
                                                    self.bounds.size.height-2*margin);
             }];
-        }else{
+        }else if(self.isHaveAnimation == NO && btn.tag != self.lastSelectedBtn.tag){
             self.backView.frame = CGRectMake(btnFrame.origin.x, margin, btnFrame.size.width-margin*2, btnFrame.size.height-margin*2);
             self.mirrorView.frame = CGRectMake(-btnFrame.origin.x,
                                                0,
@@ -183,6 +204,10 @@
                                                self.bounds.size.height-2*margin);
         }
         
+        if (self.tapBlockHandle) {
+            self.tapBlockHandle(btn.tag);
+        }
+        self.lastSelectedBtn = btn;
         
     }else{
         if (btn.tag != self.lastSelectedBtn.tag) {
@@ -207,6 +232,11 @@
                 UIView *maskView = [[UIView alloc] initWithFrame:btn.frame];
                 maskView.backgroundColor = [UIColor clearColor];
                 maskView.tag = 10000;
+                UIButton *maskBtn = [[UIButton alloc] initWithFrame:maskView.bounds];
+                maskBtn.backgroundColor = [UIColor clearColor];
+                maskBtn.tag = self.lastSelectedBtn.tag;
+                [maskBtn addTarget:self action:@selector(titleClick:) forControlEvents:UIControlEventTouchUpInside];
+                [maskView addSubview:maskBtn];
                 [self addSubview:maskView];
             }
             
@@ -217,7 +247,16 @@
                 UIView *maskView = [[UIView alloc] initWithFrame:btn.frame];
                 maskView.backgroundColor = [UIColor clearColor];
                 maskView.tag = 10000;
+                UIButton *maskBtn = [[UIButton alloc] initWithFrame:maskView.bounds];
+                maskBtn.backgroundColor = [UIColor clearColor];
+                maskBtn.tag = self.lastSelectedBtn.tag;
+                [maskBtn addTarget:self action:@selector(titleClick:) forControlEvents:UIControlEventTouchUpInside];
+                [maskView addSubview:maskBtn];
                 [self addSubview:maskView];
+            }
+            
+            if (self.tapBlockHandle) {
+                self.tapBlockHandle(btn.tag);
             }
             
         }
