@@ -14,3 +14,5 @@
         NSLog(@"-----tag:%ld", (long)tag);
     }];
     //--------------------------------示例代码------------------------------------------
+
+![image](https://raw.githubusercontent.com/GitHubWanglei/WLSegmentControl/master/Simulator%20Screen%20Shot%202015%E5%B9%B412%E6%9C%8831%E6%97%A5%2009.31.06.png)
