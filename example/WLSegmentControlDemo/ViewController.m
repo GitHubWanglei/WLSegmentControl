@@ -91,7 +91,7 @@
     [segmentControl22 setselectedImage:[UIImage imageNamed:@"selected.png"] tag:3];
     [self.view addSubview:segmentControl22];
     
-    [segmentControl11 setTapBlockHandle:^(NSInteger tag){
+    [segmentControl22 setTapBlockHandle:^(NSInteger tag){
         NSLog(@"-----tag:%ld", (long)tag);
     }];
     
